@@ -1,0 +1,398 @@
+<tw-storydata name="WebServiceErrors_v0" startnode="1" creator="Twine" creator-version="2.2.1" ifid="BF31B043-8A00-4A40-89D5-48DB9696BD75" zoom="1" format="Harlowe" format-version="2.1.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* setup page */
+tw-story {
+  background-color: #666666;
+  padding-top: 20px;
+}
+.page {
+  display: block !important;
+  font-family: 'Bitter', serif;
+  line-height: normal;
+}
+.header {
+  font-size: 32px;
+  text-align: center;
+  width: 100%;
+  color: white;
+  padding: 6px 0;
+  background-color: #D32323;
+  border-radius: 5px 5px 0 0;
+  font-weight: bold;
+}
+.content {
+  padding: 10px 20px;
+  min-height: 300px;
+  background-color: #F5F5F5;
+  font-family: inherit;
+  color: black;
+}
+
+.stats{
+  color: #D32323; 
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 16px;
+  background-color: white;
+  line-height: 32px;
+}
+
+.flash {
+  color: #D32323;
+  animation: blinker 1s linear infinite;
+}
+.center {
+ text-align: center; 
+}
+
+@keyframes blinker {
+  50% {
+    opacity: .3;
+  }
+}
+
+
+/* slack insert */
+.slack {
+  margin: 20px 0;
+  background-color: white;
+  display: block;
+  font-family: 'Lato', sans-serif;
+  border-left: 60px solid #336A8B;
+  border-radius: 5px 5px 0 0;
+  padding-bottom: 20px;
+  font-size: 18px;
+}
+.slack .channel {
+  padding-left: 10px;
+  margin-bottom: 10px;
+  height: 32px;
+  color: #333333;
+  width: 100%;
+  border-bottom: 1px solid #999999;
+}
+.slack .name {
+  margin-top: 4px;
+  margin-left: -10px;
+  font-weight: bold;
+}
+.slack .name::after {
+  content: " ";
+}
+.slack>div {
+ padding-top: 5px; 
+ padding-left: 34px;
+}
+
+.wiki {
+  background-color: white;
+  display: block;
+  border-radius: 5px 5px 0 0;
+  padding: 10px 0 10px 30px;
+  border-top: 30px solid #D32323;
+  font-size: 18px;
+  margin: 20px 0;
+}
+.wiki h1 {
+  font-size: 30px;
+}
+
+.code {
+  background-color: white;
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 18px;
+}
+.content>.code{
+  padding: 10px;
+  display: block;
+  border: 1px solid #999999;
+  border-radius: 3px;
+}
+
+/* links */
+tw-link {
+  color: #0097EC;
+  font-weight: normal;
+}
+tw-link::after { 
+    content: " ›";
+}
+.back tw-link::after, tw-link[undo]::after {
+    content: "";
+}
+.back tw-link::before, tw-link[undo]::before {
+    content: "‹ ";
+}
+tw-link.visited, tw-link[undo] {
+  color: #0073BB;
+}
+tw-link:hover, tw-link.visited:hover { 
+  color: #00bfff;
+}
+
+/* hide sidebar */
+tw-sidebar tw-icon.redo {
+	display: none;
+}
+tw-sidebar tw-icon.undo {
+	display: none;
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">
+
+</script><tw-passagedata pid="1" name="init" tags="" position="600,0" size="100,100">You are paged about a large spike in 500 errors on the search page.
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do?
+
+[[Notify users|notifyTooEarly]]
+[[Wait for errors to drop|wait]]
+[[Check wiki page|wiki]]
+[[Check recent code changes|checkCodeChanges]]
+[[Check dashboards|checkDashboards]]
+[[Escalate to a senior engineer|pageSenior]]</tw-passagedata><tw-passagedata pid="2" name="wiki" tags="" position="575,150" size="100,100">Unsure of what course of action to take, you decide to consult the internal wiki for a runbook to follow.
+
+The wiki says you can check the operational dashboards and also look for recent code changes that may be related to the errors.
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Check recent code changes|checkCodeChanges]]
+[[Check dashboards|checkDashboards]]</tw-passagedata><tw-passagedata pid="3" name="notify" tags="" position="225,425" size="100,100">You notified stakeholders. Your stress level decreased. (set:$stress to (max:0,$stress-1))(set: $time_elapsed to it+1)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Check dashboards|checkDashboardsFinal]]
+[[Escalate to a senior engineer|pageSenior]]</tw-passagedata><tw-passagedata pid="4" name="rushrelease" tags="" position="375,950" size="100,100">The dev follows your advice and releases the code without reviews or testing.(set: $time_elapsed to it+1) (set:$stress to it+1)
+
+After the change hits production, the errors don&#39;t subside. The error is still coming from the searchIndexer component but has a different traceback. Your head starts to spin as you realize that pushing a hotfix introduced another error to debug. Even worse, the original error may still be present in the code.
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Shift traffic to us-west|shiftTraffic]]
+[[Ask the search team to turn off the feature toggle|toggleOff]]
+[[Ask the search team to revert both of the bad code changes|revert]]</tw-passagedata><tw-passagedata pid="5" name="carefulrelease" tags="" position="850,900" size="100,100">The dev sends out a code review and writes unit tests for the change. While manually testing their change, they find a bug in the patch and send out a new diff.
+
+You glance at the clock; more time has passed than you had realized. You check in with the dev and they say that the change is ready to be deployed. The change will take additional time to deploy through the staging environment until it hits prod.
+(set: $time_elapsed to it+100) (set:$stress to it+1)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Push the new code change|pushNewCode]]
+[[Ask the search team to turn off the feature toggle|toggleOff]]</tw-passagedata><tw-passagedata pid="6" name="header" tags="header" position="1300,50" size="100,100">&lt;link href=&quot;https://fonts.googleapis.com/css?family=Bitter:400,700|Lato|Ubuntu+Mono&quot; rel=&quot;stylesheet&quot;&gt;&lt;div class=&quot;page&quot;&gt;&lt;section class=&quot;header&quot;&gt;OnCall of Duty&lt;/section
+&gt;&lt;section class=&quot;content&quot;&gt;</tw-passagedata><tw-passagedata pid="7" name="footer" tags="footer" position="1300,175" size="100,100">&lt;/section&gt;&lt;section class=&quot;footer&quot;&gt;&lt;/section
+&gt;&lt;div class=&quot;stats center&quot;&gt;Time: (print: $time_elapsed) hrs (+(print: $time_delta)) | Stress: (print: $stress)% ((if:$stress_delta&gt;=0)[+](print: $stress_delta))&lt;/div
+&gt;&lt;/div&gt;
+(if: $stress&gt;100)[
+(goto: &quot;gameover&quot;)
+]</tw-passagedata><tw-passagedata pid="8" name="initGame" tags="" position="75,0" size="100,100">Welcome to Oncall of Duty!
+Triage real-life incidents! Learn what it&#39;s like to be-oncall!
+
+Scoring:
+Stress: increases when choosing sub-optimal options (% out of 100). Exceeding 100% will end the game.
+Time elapsed: each step taken increments game-world time elapsed.
+Exceeding maximum time threshold will end the game.
+
+Ready to begin?
+[[I&#39;m ready.|init]]</tw-passagedata><tw-passagedata pid="9" name="wait" tags="" position="150,150" size="100,100">You wait for errors to drop.
+
+The errors have now increased to critical levels. Your stress level rises as you try to think what to do. Meanwhile, the clock keeps ticking...
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do?
+[[Notify stakeholders|notifyTooEarly]]
+[[Check wiki page|wiki]]
+[[Check recent code changes|checkCodeChanges]]
+[[Check dashboards|checkDashboards]]
+[[Escalate to a senior engineer|pageSenior]]</tw-passagedata><tw-passagedata pid="10" name="checkCodeChanges" tags="" position="350,150" size="100,100">You check the push records for recent code changes.
+
+You discover that there was a recent deploy related to the search page. This looks promising, but you may need more information...
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do?
+
+[[Notify stakeholders|notify]]
+[[Check dashboards|checkDashboardsFinal]]
+[[Escalate to a senior engineer|pageSenior]]</tw-passagedata><tw-passagedata pid="11" name="checkDashboards" tags="" position="800,150" size="100,100">You check the operational dashboards.
+
+The dashboards indicate that 100% of users in us-east are affected.
+
+You identify that the searchIndexer component of the main application is throwing errors. This looks promising, but you may need more information...
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Check recent code changes|checkCodeChangesFinal]]
+[[Escalate to a senior engineer|pageSenior]]</tw-passagedata><tw-passagedata pid="12" name="pageSenior" tags="" position="1000,150" size="100,100">Unsure of what course of action to take, you decide to ask a senior engineer on your team.
+
+They say that it may be wise to check the operational dashboards and look for any recent code changes that may have affected the site.
+
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Check recent code changes|checkCodeChanges]]
+[[Check dashboards|checkDashboards]]</tw-passagedata><tw-passagedata pid="13" name="notifyTooEarly" tags="" position="50,300" size="100,100">You post on the company&#39;s Twitter account that the site is down and engineers are aware of the outage. In addition, you send out a mass email to all users with the same information.
+
+The CTO messages you, wanting to know what the size, impact, and severity of the outage is. She expects you to know what percentage of users are impacted and in which regions.
+
+You realize you don&#39;t have this information yet. You spend time trying to explain the situation to others. You realize that you probably should have waited to notify stakeholders after assessing the impact of the situation. 
+
+Your stress level shoots up as a you figure out the next course of action.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do?
+[[Wait for errors to drop|wait]]
+[[Check wiki page|wiki]]
+[[Check recent code changes|checkCodeChanges]]
+[[Check dashboards|checkDashboards]]
+[[Escalate to a senior engineer|pageSenior]]</tw-passagedata><tw-passagedata pid="14" name="checkCodeChangesFinal" tags="" position="850,275" size="100,100">You check the push records for recent code changes.
+
+You discover that there was a recent deploy related to the search page within the searchIndexer component.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do?
+
+[[Ping #search on-point in slack|onPoint]]
+[[Page the #search on-call engineer|searchOncall]]
+[[Follow the search team&#39;s runbook to debug the issue yourself|debugAlone]]</tw-passagedata><tw-passagedata pid="15" name="onPoint" tags="" position="400,450" size="100,100">You ping the on-call person in the #search on-call channel and sit at your computer waiting for them to respond.
+
+It looks like the search team went out for lunch and the on-call person isn&#39;t responding to your message. You regret not paging the on-call directly as you feel your stress levels rise.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Page the #search on-call engineer|searchOncall]]
+[[Follow the search team&#39;s runbook to debug the issue yourself|debugAlone]]</tw-passagedata><tw-passagedata pid="16" name="searchOncall" tags="" position="575,450" size="100,100">You page the on-call person for the search team and get an immediate response.
+
+The search on-call says they&#39;re on their way back to the office and acknowledges that the recent code push to the searchIndexer component is likely causing the errors. They mention that the change is related to a new feature and there&#39;s a way to toggle the feature off. They say that this is probably the fastest way to stop the errors, but doesn&#39;t actually fix the bug.
+
+They ask you for advice on what to do.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Shift traffic to us-west|shiftTraffic]]
+[[Ask the search team to revert the code change|revert]]
+[[Ask the search team to deploy a new code change that includes the fix|hotfix]]
+[[Ask the search team to turn off the feature toggle|toggleOff]]</tw-passagedata><tw-passagedata pid="17" name="debugAlone" tags="" position="800,450" size="100,100">You check the internal wiki for the search team&#39;s runbooks.
+
+As you peruse the runbook on the searchIndexer component and read through the search team&#39;s codebase, you realize you&#39;re in way over your head.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do?
+[[Ping #search on-point in slack|onPoint]]
+[[Page the #search on-call engineer|searchOncall]]</tw-passagedata><tw-passagedata pid="18" name="checkDashboardsFinal" tags="" position="500,300" size="100,100">You check the operational dashboards.
+
+The dashboards indicate that 100% of users in us-east are affected. This classifies the incident as a p0, requiring immediate resolution.
+
+You see that the errors being thrown are coming from &quot;.../component/searchIndexer&quot; within the main application.
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Ping #search on-point in slack|onPoint]]
+[[Page the #search on-call engineer|searchOncall]]
+[[Follow the search team&#39;s runbook to debug the issue yourself|debugAlone]]</tw-passagedata><tw-passagedata pid="19" name="shiftTraffic" tags="" position="350,700" size="100,100">You shift the traffic in us-east to us-west.
+
+The errors subside. It looks like the feature was only available to users on the east coast. You breathe a sigh of relief as you think to yourself that you just bought yourself a bit of time.
+
+However, you see that capacity in us-west is now cut in half and servers are degraded.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Ask the search team to revert the bad code change|revert]]
+[[Ask the search team to deploy a new code change that includes the fix|hotfix]]
+[[Ask the search team to turn off the feature toggle|toggleOff]]</tw-passagedata><tw-passagedata pid="20" name="revert" tags="" position="525,700" size="100,100">You ask the search team&#39;s on-call to revert the bad code change.
+
+They get back to the office and start to deploy a revert to production. As the revert hits production, the errors subside. You breathe a sigh of relief.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Write a postmortem|postmortem]]</tw-passagedata><tw-passagedata pid="21" name="hotfix" tags="" position="825,700" size="100,100">You ask the search team to make a new code change that would prevent the error from being raised on the search page.
+
+The search on-call comes up with a fix on their dev machine and asks if they can release it right away. How should we release it?
+
+[[I like to live dangerously. Rush it!|rushrelease]]
+[[Ask them to write unit tests, run manual tests, and send out a code review.|carefulrelease]]</tw-passagedata><tw-passagedata pid="22" name="toggleOff" tags="" position="675,700" size="100,100">You ask the search team&#39;s on-call to turn the feature off.
+
+They get back to the office and deploy a config change to production. It hits production in a few minutes, and the errors subside. You breathe a sigh of relief.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Write a postmortem|postmortem]]</tw-passagedata><tw-passagedata pid="23" name="pushNewCode" tags="" position="850,1025" size="100,100">You ask the search team&#39;s on-call to push the code fix.
+
+They deploy the fix to production. As it hits production, the errors subside. You breathe a sigh of relief. It took a lot longer than you thought, but at least you resolved the issue.
+
+(set: $time_elapsed to 0)(set: $stress to 0)(set: $baddata_exists to true)(set: $wiki_checked to false)(set: $job_rerun to false)(set: $time_modifier to 1+$stress/100)
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+What do you do next?
+[[Write a postmortem|postmortem]]</tw-passagedata><tw-passagedata pid="24" name="postmortem" tags="" position="600,1175" size="100,100">Congratulations!
+
+You successfully mitigated the issue and the errors finally stopped. You issue an all-clear to the engineering organization as you start to think about sipping mai tais on warm, sandy beaches...
+
+Guess it&#39;s time to write that postmortem.
+-----
+Time Elapsed: (print: $time_elapsed) hours
+Oncall Stress: (print: $stress)%
+-----
+[[Play again|init]]
+(link:&quot;Fill out feedback form&quot;)[(gotoURL:&quot;https://docs.google.com/forms/d/e/1FAIpQLSest4tngyTeWZ9DBudZLUL5IUsyICTXhduuPellDXnny9LR2A/viewform&quot;)]</tw-passagedata><tw-passagedata pid="25" name="Untitled Passage" tags="" position="975,275" size="100,100">Double-click this passage to edit it.</tw-passagedata></tw-storydata>
+
