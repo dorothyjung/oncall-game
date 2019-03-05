@@ -1,2 +1,2 @@
 # oncall-game
-Interaction on-call simulation game built with Twine
+Interactive on-call simulation game built with Twine
